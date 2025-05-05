@@ -3,9 +3,9 @@ const { connectDB } = require("./config/db");
 const logger = require("./utils/logger");
 const config = require("./config/config");
 const authService = require("./services/authService");
-const { generateSitemap } = require("./utils/seo/sitemapGenerator");
-const { generateRobotsTxt } = require("./utils/seo/generateRobotsTxt");
-const { generateHtmlSitemap } = require("./utils/seo/generateHtmlSitemap");
+// const { generateSitemap } = require("./utils/seo/sitemapGenerator");
+// const { generateRobotsTxt } = require("./utils/seo/generateRobotsTxt");
+// const { generateHtmlSitemap } = require("./utils/seo/generateHtmlSitemap");
 
 // Start server
 const startServer = async () => {
@@ -13,9 +13,9 @@ const startServer = async () => {
     // Connect to MongoDB
     await connectDB();
 
-    await generateRobotsTxt();
-    await generateSitemap();
-    await generateHtmlSitemap();
+    // await generateRobotsTxt();
+    // await generateSitemap();
+    // await generateHtmlSitemap();
 
     // Create initial admin user if needed
     await authService.createInitialAdmin();

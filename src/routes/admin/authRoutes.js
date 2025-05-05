@@ -4,8 +4,7 @@ const authController = require("../../controllers/admin/authController");
 const { adminAuth } = require("../../middleware/adminAuth");
 // Fix: Import the createLimiter function instead of rateLimiter
 const { createLimiter } = require("../../middleware/rateLimiter");
-// In your admin routes
-const { getPerformanceStats } = require('../../middleware/performanceMonitor');
+const { getPerformanceStats } = require("../../middleware/performanceMonitor");
 
 /**
  * @route   POST /api/admin/auth/login
@@ -37,14 +36,12 @@ router.post("/change-password", adminAuth, authController.changePassword);
  */
 router.get("/verify", adminAuth, authController.verifyToken);
 
-
-
 // Add this route
-router.get('/performance', adminAuth, (req, res) => {
+router.get("/performance", adminAuth, (req, res) => {
   const stats = getPerformanceStats(req.app);
   res.json({
     success: true,
-    data: stats
+    data: stats,
   });
 });
 

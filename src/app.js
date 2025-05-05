@@ -16,8 +16,7 @@ const handleRedirects = require("./middleware/redirects");
 // const seoHeaders = require("./middleware/seoHeaders");
 const { cacheMiddleware } = require("./middleware/cache");
 const { generateSitemap } = require("./utils/seo/sitemapGenerator");
-const { performanceMonitor } = require("./middleware/performanceMonitor");
-
+const performanceUtils = require("./middleware/performanceMonitor");
 
 ensureUploadDirectories();
 
@@ -29,7 +28,7 @@ const seoHeaders = require("./middleware/seoHeader");
 // Create Express app
 const app = express();
 
-app.use(performanceMonitor);
+app.use(performanceUtils.performanceMonitor);
 
 // Apply global middlewares
 app.use(
