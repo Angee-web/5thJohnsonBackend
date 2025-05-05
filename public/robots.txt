@@ -1,0 +1,14 @@
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /api/
+Disallow: /checkout/
+Disallow: /user/account/
+Disallow: /cart/
+Disallow: /auth/
+
+# Sitemaps
+Sitemap: http://localhost:7000/sitemap.xml
+
+# Crawl delay
+Crawl-delay: 5

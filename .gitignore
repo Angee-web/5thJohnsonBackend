@@ -1,0 +1,81 @@
+# Dependencies
+node_modules/
+npm-debug.log
+yarn-debug.log
+yarn-error.log
+package-lock.json
+yarn.lock
+
+# Environment variables
+.env
+.env.example
+.env.local
+.env.development
+.env.test
+.env.production
+
+# Log files
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# IDE and editor files
+.idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace
+.DS_Store
+Thumbs.db
+
+# Build directories
+/dist
+/build
+/out
+
+# Temporary files
+tmp/
+temp/
+.cache/
+
+# Upload directories (local storage)
+/uploads
+/public/uploads
+
+# Test coverage reports
+/coverage
+.nyc_output
+
+# Local configs that shouldn't be shared
+config/local.*
+
+# Database files
+*.sqlite
+*.sqlite3
+/data
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Cloudinary local data (if you're using Cloudinary)
+/cloudinary-data
+
+# Session files
+sessions/
+
+# Debug files
+debug.log
+
+# JWT keys
+private.key
+public.key
+
+# API documentation (auto-generated)
+/apidoc
