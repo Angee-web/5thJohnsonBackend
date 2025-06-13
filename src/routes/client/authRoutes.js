@@ -6,7 +6,7 @@ const validate = require("../../middleware/validator");
 const { userValidators } = require("../../utils/validators");
 
 /**
- * @route   POST /api/user/auth/register
+ * @route   POST /api/user/auth/register ✅
  * @desc    Register new user
  * @access  Public
  */
@@ -17,7 +17,7 @@ router.post(
 );
 
 /**
- * @route   POST /api/user/auth/login
+ * @route   POST /api/user/auth/login ✅
  * @desc    User login
  * @access  Public
  */

@@ -9,7 +9,7 @@ const { favoriteValidators } = require("../../utils/validators");
 router.use(optionalAuth);
 
 /**
- * @route   GET /api/favorites
+ * @route   GET /api/favorites ✅
  * @desc    Get all favorites
  * @access  Public
  */

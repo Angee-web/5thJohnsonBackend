@@ -70,12 +70,15 @@ const getProducts = async (req, res) => {
     } = req.query;
 
     // Build query
-    const query = { isActive: true }; // Make sure only active products are returned
+    const query = { isActive: true };
 
     // Collection filter
     if (collections) {
       const collectionIds = collections.split(",");
-      query.collections = { $in: collectionIds };
+      const validCollectionIds = collectionIds.filter((id) =>
+        mongoose.Types.ObjectId.isValid(id)
+      );
+      query.collections = { $in: validCollectionIds };
     }
 
     // Price range filter
@@ -94,6 +97,9 @@ const getProducts = async (req, res) => {
         { description: { $regex: search, $options: "i" } },
       ];
     }
+
+    // Debugging logs
+    console.log("Query object:", query);
 
     // Execute query
     const total = await Product.countDocuments(query);
@@ -126,6 +132,7 @@ const getProducts = async (req, res) => {
       },
     });
   } catch (error) {
+    console.error("Error fetching products:", error);
     res.status(500).json({
       success: false,
       message: "Failed to fetch products",
@@ -165,12 +172,18 @@ const getProductById = async (req, res, next) => {
 const getFeaturedProducts = async (req, res, next) => {
   try {
     const { limit = 8 } = req.query;
+
+    console.log("Fetching featured products with limit:", limit);
+
     const featuredProducts = await productService.getFeaturedProducts(
       parseInt(limit)
     );
 
+    console.log("Featured products:", featuredProducts);
+
     return successResponse(res, { products: featuredProducts });
   } catch (error) {
+    console.error("Error fetching featured products:", error);
     next(error);
   }
 };
@@ -182,15 +195,16 @@ const getFeaturedProducts = async (req, res, next) => {
 const getNewArrivals = async (req, res, next) => {
   try {
     const { limit = 8 } = req.query;
-    
+
     console.log("Controller: Getting new arrivals with limit:", limit);
-    
+
     const newArrivals = await productService.getNewArrivals(parseInt(limit));
-    
+
     console.log(`Controller: Returning ${newArrivals.length} new arrivals`);
-    
+
     return successResponse(res, { products: newArrivals });
   } catch (error) {
+    console.error("Controller: Error fetching new arrivals:", error);
     next(error);
   }
 };
