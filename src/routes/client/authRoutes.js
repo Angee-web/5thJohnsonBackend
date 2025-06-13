@@ -12,11 +12,7 @@ const { userValidators } = require("../../utils/validators");
  */
 router.post(
   "/register",
-  // (req, res, next) => {
-  //   console.log("Request body:", req.body); // Log the incoming request body
-  //   next();
-  // },
-  // validate(userValidators.register),
+  validate(userValidators.register),
   authController.register
 );
 
