@@ -82,14 +82,14 @@ collectionSchema.virtual("products", {
 });
 
 // Update product count
-collectionSchema.statics.updateProductCount = async function(collectionId) {
+collectionSchema.statics.updateProductCount = async function (collectionId) {
   const Product = mongoose.model("Product");
-  
+
   const count = await Product.countDocuments({
     collections: collectionId,
-    "flags.isActive": true
+    isActive: true
   });
-  
+
   await this.findByIdAndUpdate(collectionId, {
     "metadata.productCount": count
   });

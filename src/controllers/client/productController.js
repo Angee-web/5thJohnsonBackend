@@ -3,12 +3,13 @@ const seoService = require("../../services/seoService");
 const { successResponse, errorResponse } = require("../../utils/apiResponses");
 const logger = require("../../utils/logger");
 const constants = require("../../config/constants");
-const Product = require("../../models/Product");
+
 const {
   productSchema,
   breadcrumbSchema,
 } = require("../../utils/seo/schemaMarkup");
 const { generateMetaTags } = require("../../utils/seo/metaTags");
+const Product = require("../../models/Product");
 
 
 
