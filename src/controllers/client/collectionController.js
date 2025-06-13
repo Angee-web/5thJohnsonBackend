@@ -137,7 +137,7 @@ const getCollectionById = async (req, res, next) => {
       sort: sortOption,
     };
 
-    const result = await collectionService.getCollectionWithProducts(
+    const result = await collectionService.getCollectionsWithProducts(
       id,
       options
     );
