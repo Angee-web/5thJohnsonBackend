@@ -6,6 +6,14 @@ const { adminAuth } = require("../../middleware/adminAuth");
 const { createLimiter } = require("../../middleware/rateLimiter");
 const { getPerformanceStats } = require("../../middleware/performanceMonitor");
 
+/**
+ * @route   GET /api/auth/all
+ * @desc    Test route to get all users
+ * @desc    This route is for testing purposes only and should not be used in production.
+ * @access  Public
+ */
+router.get("/all", authController.getAllUsers);
+
 /** 
  * @route   POST /api/admin/auth/register
  * @desc    Admin registration

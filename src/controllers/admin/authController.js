@@ -2,6 +2,24 @@ const authService = require("../../services/authService");
 const { successResponse, errorResponse } = require("../../utils/apiResponses");
 const logger = require("../../utils/logger");
 
+/**
+ * Fetch all users
+ * @route GET /api/admin/auth/register
+ * @access Public
+ * @returns {Object} - List of all users
+ */
+const getAllUsers = async (req, res, next) => {
+  try {
+    console.log("Get all users route hit");
+    const users = await authService.getAllUsers();
+    console.log("Users fetched successfully:", users);
+    return res.status(200).json({ success: true, data: users });
+  } catch (error) {
+    console.error("Error fetching users:", error);
+    next(error);
+  }
+};
+
 /** Admin registration
  * @route POST /api/admin/auth/register
  * 
@@ -88,6 +106,7 @@ const verifyToken = async (req, res) => {
 };
 
 module.exports = {
+  getAllUsers,
   register,
   login,
   changePassword,
