@@ -119,44 +119,24 @@ const getCollections = async (filters = {}, options = {}) => {
  */
 const getCollectionsWithProducts = async (options = {}) => {
   try {
-    // Log debugging info
     console.log("Getting collections with products, options:", options);
 
-    // Set pagination options
     const page = options.page || 1;
     const limit = options.limit || 10;
     const skip = (page - 1) * limit;
     const sort = options.sort || { order: 1 };
 
-    // First check structure of a product to understand how collections are stored
-    const sampleProduct = await Product.findOne({
-      _id: "68153169c6ee0f666d34c728",
-    }).lean();
-    console.log(
-      "Sample product structure:",
-      JSON.stringify({
-        _id: sampleProduct._id,
-        collections: sampleProduct.collections,
-        flags: sampleProduct.flags,
-      })
-    );
-
-    // More flexible approach - first get all products with collections
     const productsWithCollections = await Product.find({
       collections: { $exists: true, $ne: [] },
     })
       .select("_id name collections")
       .lean();
 
-    console.log(
-      `Found ${productsWithCollections.length} products with collections`
-    );
+    console.log(`Found ${productsWithCollections.length} products with collections`);
 
-    // Extract unique collection IDs
     const allCollectionIds = [];
     const productsByCollection = {};
 
-    // Group products by collection
     productsWithCollections.forEach((product) => {
       if (Array.isArray(product.collections)) {
         product.collections.forEach((collId) => {
@@ -178,7 +158,6 @@ const getCollectionsWithProducts = async (options = {}) => {
 
     console.log(`Found ${allCollectionIds.length} collections with products`);
 
-    // If no collections have products, return empty result
     if (allCollectionIds.length === 0) {
       return {
         collections: [],
@@ -191,12 +170,12 @@ const getCollectionsWithProducts = async (options = {}) => {
       };
     }
 
-    // Convert string IDs to ObjectIds
     const collectionObjectIds = allCollectionIds.map((id) =>
-      mongoose.Types.ObjectId.isValid(id) ? mongoose.Types.ObjectId(id) : id
+      mongoose.Types.ObjectId.isValid(id) ? new mongoose.Types.ObjectId(id) : id
     );
 
-    // Get collections with pagination
+    console.log("Converted ObjectIds:", collectionObjectIds);
+
     const collections = await Collection.find({
       _id: { $in: collectionObjectIds },
     })
@@ -207,7 +186,6 @@ const getCollectionsWithProducts = async (options = {}) => {
 
     console.log(`Retrieved ${collections.length} collections`);
 
-    // Add product info to each collection
     const enhancedCollections = await Promise.all(
       collections.map(async (collection) => {
         const collectionId = collection._id.toString();
@@ -216,7 +194,6 @@ const getCollectionsWithProducts = async (options = {}) => {
           productIds: [],
         };
 
-        // Get products for this collection
         const products = await Product.find({
           _id: { $in: productInfo.productIds.slice(0, 10) },
         })
@@ -234,7 +211,6 @@ const getCollectionsWithProducts = async (options = {}) => {
               : null,
         }));
 
-        // Update product count
         if (!collection.metadata) collection.metadata = {};
         collection.metadata.productCount = productInfo.count;
 
