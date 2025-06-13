@@ -25,39 +25,6 @@ app.use((req, res, next) => {
   next();
 });
 
-
-// Client Routes
-const clientProductRoutes = require("./routes/client/productRoutes");
-const clientCollectionRoutes = require("./routes/client/collectionRoutes");
-const clientFavoriteRoutes = require("./routes/client/favoriteRoutes");
-const clientReviewRoutes = require("./routes/client/reviewRoutes");
-const clientContactRoutes = require("./routes/client/contactRoutes");
-const clientWhatsappRoutes = require("./routes/client/whatsappRoutes");
-const clientAuthRoutes = require("./routes/client/authRoutes");
-
-// Admin Routes
-const adminProductRoutes = require("./routes/admin/productRoutes");
-const adminCollectionRoutes = require("./routes/admin/collectionRoutes");
-const adminMessageRoutes = require("./routes/admin/messageRoutes");
-const adminReviewRoutes = require("./routes/admin/reviewRoutes");
-const adminAuthRoutes = require("./routes/admin/authRoutes");
-
-
-// Mount routes directly
-app.use("/products", clientProductRoutes);
-app.use("/collections", clientCollectionRoutes);
-app.use("/favorites", clientFavoriteRoutes);
-app.use("/reviews", clientReviewRoutes);
-app.use("/contact", clientContactRoutes);
-app.use("/whatsapp", clientWhatsappRoutes);
-app.use("/user/auth", clientAuthRoutes);
-
-app.use("/admin/products", adminProductRoutes);
-app.use("/admin/collections", adminCollectionRoutes);
-app.use("/admin/messages", adminMessageRoutes);
-app.use("/admin/reviews", adminReviewRoutes);
-app.use("/admin/auth", adminAuthRoutes);
-
 app.get("/api/health", (req, res) => {
   res.status(200).json({
     status: "ok",
@@ -65,8 +32,6 @@ app.get("/api/health", (req, res) => {
     timestamp: new Date().toISOString(),
   });
 });
-
-
 
 console.log("Environment Variables Loaded:");
 console.log("NODE_ENV:", process.env.NODE_ENV);

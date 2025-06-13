@@ -28,58 +28,9 @@ const seoHeaders = require("./middleware/seoHeader");
 // Create Express app
 const app = express();
 
-// Debugging: Log incoming requests
-// app.use((req, res, next) => {
-//   console.log(`Incoming request: ${req.method} ${req.url}`);
-//   next();
-// });
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-// // Apply performance monitoring middleware
-// app.use(performanceUtils.performanceMonitor);
-
-// // Apply global middlewares
-// app.use(
-//   helmet({
-//     contentSecurityPolicy: {
-//       directives: {
-//         defaultSrc: ["'self'"],
-//         scriptSrc: [
-//           "'self'",
-//           "'unsafe-inline'",
-//           "https://www.google-analytics.com",
-//           "https://www.googletagmanager.com",
-//         ],
-//         styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
-//         imgSrc: ["'self'", "data:", "https://res.cloudinary.com"],
-//         fontSrc: ["'self'", "https://fonts.gstatic.com"],
-//         connectSrc: ["'self'", "https://www.google-analytics.com"],
-//       },
-//     },
-//   })
-// ); // Security headers with SEO-friendly settings
-
-// // SEO middleware - apply early in the chain
-// app.use(handleRedirects); // First check for redirects
-// app.use(seoHeaders); // Set SEO-related headers
-
-// app.use(compression()); // Compress responses
-// app.use(
-//   cors({
-//     origin: process.env.CORS_ORIGIN || "*",
-//     credentials: true,
-//   })
-// );
-// app.use(express.json()); // Parse JSON bodies
-// app.use(express.urlencoded({ extended: true })); // Parse URL-encoded bodies
-// app.use(cookieParser()); // Parse cookies
-// app.use(sessionManager); // Manage sessions
-// app.use(setCanonicalUrl); // Add canonical URLs to responses
-
-// // Debugging: Log session cookies
-// app.use((req, res, next) => {
-//   console.log("Session cookies:", req.cookies);
-//   next();
-// });
 
 // Logging
 if (process.env.NODE_ENV === "development") {
