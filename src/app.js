@@ -13,11 +13,11 @@ const { ensureUploadDirectories } = require("./utils/fileProcessing");
 // Import SEO middleware
 const setCanonicalUrl = require("./middleware/canonicalUrl");
 const handleRedirects = require("./middleware/redirects");
-// const seoHeaders = require("./middleware/seoHeaders");
 const { cacheMiddleware } = require("./middleware/cache");
 const { generateSitemap } = require("./utils/seo/sitemapGenerator");
 const performanceUtils = require("./middleware/performanceMonitor");
 
+// Ensure upload directories exist
 ensureUploadDirectories();
 
 // Import the main router instead of individual route files
@@ -28,51 +28,58 @@ const seoHeaders = require("./middleware/seoHeader");
 // Create Express app
 const app = express();
 
-app.use(performanceUtils.performanceMonitor);
+// Debugging: Log incoming requests
+// app.use((req, res, next) => {
+//   console.log(`Incoming request: ${req.method} ${req.url}`);
+//   next();
+// });
 
-// Apply global middlewares
-app.use(
-  helmet({
-    // Modify CSP to allow inline scripts for analytics if needed
-    contentSecurityPolicy: {
-      directives: {
-        defaultSrc: ["'self'"],
-        scriptSrc: [
-          "'self'",
-          "'unsafe-inline'",
-          "https://www.google-analytics.com",
-          "https://www.googletagmanager.com",
-        ],
-        styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
-        imgSrc: ["'self'", "data:", "https://res.cloudinary.com"],
-        fontSrc: ["'self'", "https://fonts.gstatic.com"],
-        connectSrc: ["'self'", "https://www.google-analytics.com"],
-      },
-    },
-  })
-); // Security headers with SEO-friendly settings
+// // Apply performance monitoring middleware
+// app.use(performanceUtils.performanceMonitor);
 
-// SEO middleware - apply early in the chain
-app.use(handleRedirects); // First check for redirects
-app.use(seoHeaders); // Set SEO-related headers
+// // Apply global middlewares
+// app.use(
+//   helmet({
+//     contentSecurityPolicy: {
+//       directives: {
+//         defaultSrc: ["'self'"],
+//         scriptSrc: [
+//           "'self'",
+//           "'unsafe-inline'",
+//           "https://www.google-analytics.com",
+//           "https://www.googletagmanager.com",
+//         ],
+//         styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
+//         imgSrc: ["'self'", "data:", "https://res.cloudinary.com"],
+//         fontSrc: ["'self'", "https://fonts.gstatic.com"],
+//         connectSrc: ["'self'", "https://www.google-analytics.com"],
+//       },
+//     },
+//   })
+// ); // Security headers with SEO-friendly settings
 
-app.use(compression()); // Compress responses
-app.use(
-  cors({
-    origin: process.env.CORS_ORIGIN || "*",
-    credentials: true,
-  })
-);
-app.use(express.json()); // Parse JSON bodies
-app.use(express.urlencoded({ extended: true })); // Parse URL-encoded bodies
-app.use(cookieParser()); // Parse cookies
-app.use(sessionManager);
-app.use(setCanonicalUrl); // Add canonical URLs to responses
+// // SEO middleware - apply early in the chain
+// app.use(handleRedirects); // First check for redirects
+// app.use(seoHeaders); // Set SEO-related headers
 
-// // Add at the top of sessionManager middleware
-// console.log('Session cookie from request:', req.cookies[constants.AUTH.SESSION_COOKIE_NAME]);
-// // Add after setting the cookie
-// console.log('Setting new session cookie:', newSessionId);
+// app.use(compression()); // Compress responses
+// app.use(
+//   cors({
+//     origin: process.env.CORS_ORIGIN || "*",
+//     credentials: true,
+//   })
+// );
+// app.use(express.json()); // Parse JSON bodies
+// app.use(express.urlencoded({ extended: true })); // Parse URL-encoded bodies
+// app.use(cookieParser()); // Parse cookies
+// app.use(sessionManager); // Manage sessions
+// app.use(setCanonicalUrl); // Add canonical URLs to responses
+
+// // Debugging: Log session cookies
+// app.use((req, res, next) => {
+//   console.log("Session cookies:", req.cookies);
+//   next();
+// });
 
 // Logging
 if (process.env.NODE_ENV === "development") {
@@ -95,6 +102,10 @@ app.get("/sitemap.xml", (req, res) => {
 });
 
 // Apply rate limiting to all routes
+app.use((req, res, next) => {
+  console.log("Rate limiter applied");
+  next();
+});
 app.use(standardLimiter);
 
 // Add caching for specific API routes that are heavily used but don't change often
@@ -103,10 +114,14 @@ app.use("/api/categories", cacheMiddleware({ ttl: 600 })); // Cache categories f
 app.use("/api/settings", cacheMiddleware({ ttl: 1800 })); // Cache site settings for 30 minutes
 
 // Use the main router for all routes
-app.use(routes);
+app.use("/api", routes); // Prefix all routes with "/api"
+
+// Debugging: Log route registration
+console.log("Routes registered successfully", routes);
 
 // Handle 404s
 app.use((req, res) => {
+  console.log(`404 Not Found: ${req.originalUrl}`);
   res.status(404).json({
     success: false,
     message: `Route not found: ${req.originalUrl}`,
@@ -120,7 +135,13 @@ app.use((req, res) => {
 });
 
 // Global error handler
-app.use(errorHandler);
+app.use((err, req, res, next) => {
+  console.error("Global error handler:", err);
+  res.status(err.status || 500).json({
+    success: false,
+    message: err.message || "Internal Server Error",
+  });
+});
 
 // Export the app before listening
 module.exports = app;

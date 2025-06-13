@@ -2,6 +2,30 @@ const authService = require("../../services/authService");
 const { successResponse, errorResponse } = require("../../utils/apiResponses");
 const logger = require("../../utils/logger");
 
+/** Admin registration
+ * @route POST /api/admin/auth/register
+ * 
+ */
+const register = async (req, res, next) => {
+  console.log("Register route hit"); // Debugging log
+  console.log("Request body:", req.body); // Debugging log
+
+  const { username, password } = req.body;
+  if (!username || !password) {
+    console.log("Validation failed: Missing username or password");
+    return res.status(400).json({ message: "Username and password are required" });
+  }
+
+  try {
+    const adminData = await authService.register(username, password);
+    console.log("Admin registered successfully:", adminData); // Debugging log
+    return res.status(201).json({ message: "Admin registered successfully", data: adminData });
+  } catch (error) {
+    console.error("Error in register route:", error); // Debugging log
+    next(error);
+  }
+};
+
 /**
  * Admin login
  * @route POST /api/admin/auth/login
@@ -64,6 +88,7 @@ const verifyToken = async (req, res) => {
 };
 
 module.exports = {
+  register,
   login,
   changePassword,
   verifyToken,

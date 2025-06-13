@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const logger = require("../utils/logger");
 const config = require("./config");
+require("dotenv").config();
 
 /**
  * Connect to MongoDB
@@ -14,7 +15,7 @@ const connectDB = async () => {
       );
     }
 
-    logger.info(`Attempting to connect to MongoDB...`);
+    logger.info(`Attempting to connect to MongoDB...`, );
 
     // Connect to MongoDB
     const conn = await mongoose.connect(config.mongoURI);

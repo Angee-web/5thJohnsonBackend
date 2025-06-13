@@ -1,15 +1,19 @@
 const dotenv = require("dotenv");
 const path = require("path");
+require("dotenv").config();
 
 // Load env vars
 dotenv.config({ path: path.resolve(__dirname, "../.env") });
+
+// Debugging: Log environment variables
+
 
 module.exports = {
   nodeEnv: process.env.NODE_ENV || "development",
   port: process.env.PORT || 7000,
   baseUrl: process.env.BASE_URL || "http://localhost:7000",
 
-  // Make sure we're using the MongoDB URI from the environment variable
+  // MongoDB URI
   mongoURI: process.env.MONGO_URI,
 
   jwt: {

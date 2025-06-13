@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { seoMiddleware } = require("../middleware/seoMiddleware");
+// const { seoMiddleware } = require("../middleware/seoMiddleware");
 
 // Client routes
 const clientProductRoutes = require("./client/productRoutes");
@@ -18,30 +18,30 @@ const adminMessageRoutes = require("./admin/messageRoutes");
 const adminReviewRoutes = require("./admin/reviewRoutes");
 const adminAuthRoutes = require("./admin/authRoutes");
 
-// Apply SEO middleware to client routes
-router.use(seoMiddleware);
+// // Apply SEO middleware to client routes
+// router.use(seoMiddleware);
 
-// Client API Routes
-router.use("/api/products", clientProductRoutes);
-router.use("/api/collections", clientCollectionRoutes);
-router.use("/api/favorites", clientFavoriteRoutes);
-router.use("/api/reviews", clientReviewRoutes);
-router.use("/api/contact", clientContactRoutes);
-router.use("/api/whatsapp", clientWhatsappRoutes);
-router.use("/api/user/auth", clientAuthRoutes);
+// Client Routes
+router.use("/products", clientProductRoutes);
+router.use("/collections", clientCollectionRoutes);
+router.use("/favorites", clientFavoriteRoutes);
+router.use("/reviews", clientReviewRoutes);
+router.use("/contact", clientContactRoutes);
+router.use("/whatsapp", clientWhatsappRoutes);
+router.use("/user/auth", clientAuthRoutes);
 
-// Admin API Routes
-router.use("/api/admin/products", adminProductRoutes);
-router.use("/api/admin/collections", adminCollectionRoutes);
-router.use("/api/admin/messages", adminMessageRoutes);
-router.use("/api/admin/reviews", adminReviewRoutes);
-router.use("/api/admin/auth", adminAuthRoutes);
+// Admin Routes
+router.use("/admin/products", adminProductRoutes);
+router.use("/admin/collections", adminCollectionRoutes);
+router.use("/admin/messages", adminMessageRoutes);
+router.use("/admin/reviews", adminReviewRoutes);
+router.use("/admin/auth", adminAuthRoutes);
 
 // Health check endpoint
-router.get("/api/health", (req, res) => {
+router.get("/health", (req, res) => {
   res.status(200).json({
     status: "ok",
-    message: "5thJohnson API is running",
+    message: "5thJohnson is running",
     timestamp: new Date().toISOString(),
   });
 });

@@ -3,9 +3,83 @@ const { connectDB } = require("./config/db");
 const logger = require("./utils/logger");
 const config = require("./config/config");
 const authService = require("./services/authService");
+const routes = require("./routes");
+const express = require("express");
+
+require("dotenv").config();
 // const { generateSitemap } = require("./utils/seo/sitemapGenerator");
 // const { generateRobotsTxt } = require("./utils/seo/generateRobotsTxt");
 // const { generateHtmlSitemap } = require("./utils/seo/generateHtmlSitemap");
+
+
+app.use(express.json()); 
+app.use(express.urlencoded({ extended: true }));
+
+app.use("/api", routes);
+//Log to see if the routes are loaded correctly
+console.log("Routes loaded successfully", routes);
+console.log("Server.js is running");
+
+app.use((req, res, next) => {
+  console.log(`Incoming request: ${req.method} ${req.url}`);
+  next();
+});
+
+
+// Client Routes
+const clientProductRoutes = require("./routes/client/productRoutes");
+const clientCollectionRoutes = require("./routes/client/collectionRoutes");
+const clientFavoriteRoutes = require("./routes/client/favoriteRoutes");
+const clientReviewRoutes = require("./routes/client/reviewRoutes");
+const clientContactRoutes = require("./routes/client/contactRoutes");
+const clientWhatsappRoutes = require("./routes/client/whatsappRoutes");
+const clientAuthRoutes = require("./routes/client/authRoutes");
+
+// Admin Routes
+const adminProductRoutes = require("./routes/admin/productRoutes");
+const adminCollectionRoutes = require("./routes/admin/collectionRoutes");
+const adminMessageRoutes = require("./routes/admin/messageRoutes");
+const adminReviewRoutes = require("./routes/admin/reviewRoutes");
+const adminAuthRoutes = require("./routes/admin/authRoutes");
+
+
+// Mount routes directly
+app.use("/products", clientProductRoutes);
+app.use("/collections", clientCollectionRoutes);
+app.use("/favorites", clientFavoriteRoutes);
+app.use("/reviews", clientReviewRoutes);
+app.use("/contact", clientContactRoutes);
+app.use("/whatsapp", clientWhatsappRoutes);
+app.use("/user/auth", clientAuthRoutes);
+
+app.use("/admin/products", adminProductRoutes);
+app.use("/admin/collections", adminCollectionRoutes);
+app.use("/admin/messages", adminMessageRoutes);
+app.use("/admin/reviews", adminReviewRoutes);
+app.use("/admin/auth", adminAuthRoutes);
+
+app.get("/api/health", (req, res) => {
+  res.status(200).json({
+    status: "ok",
+    message: "5thJohnson API is running",
+    timestamp: new Date().toISOString(),
+  });
+});
+
+
+
+console.log("Environment Variables Loaded:");
+console.log("NODE_ENV:", process.env.NODE_ENV);
+console.log("PORT:", process.env.PORT);
+console.log("BASE_URL:", process.env.BASE_URL);
+console.log("MONGO_URI:", process.env.MONGO_URI ? "DEFINED" : "NOT DEFINED");
+console.log("JWT_SECRET:", process.env.JWT_SECRET ? "DEFINED" : "NOT DEFINED");
+console.log("CLOUDINARY_CLOUD_NAME:", process.env.CLOUDINARY_CLOUD_NAME);
+console.log("CLOUDINARY_API_KEY:", process.env.CLOUDINARY_API_KEY ? "DEFINED" : "NOT DEFINED");
+console.log("CLOUDINARY_API_SECRET:", process.env.CLOUDINARY_API_SECRET ? "DEFINED" : "NOT DEFINED");
+console.log("EMAIL_HOST:", process.env.EMAIL_HOST);
+console.log("EMAIL_USER:", process.env.EMAIL_USER);
+console.log("WHATSAPP_API_KEY:", process.env.WHATSAPP_API_KEY ? "DEFINED" : "NOT DEFINED");
 
 // Start server
 const startServer = async () => {
@@ -70,5 +144,14 @@ const startServer = async () => {
 if (require.main === module) {
   startServer();
 }
+
+app.get("/test", (req, res) => {
+  res.send("Server is working");
+});
+
+app.use((req, res, next) => {
+  console.log(`Incoming request: ${req.method} ${req.url}`);
+  next();
+});
 
 module.exports = { startServer };

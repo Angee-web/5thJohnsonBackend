@@ -6,6 +6,17 @@ const { adminAuth } = require("../../middleware/adminAuth");
 const { createLimiter } = require("../../middleware/rateLimiter");
 const { getPerformanceStats } = require("../../middleware/performanceMonitor");
 
+/** 
+ * @route   POST /api/admin/auth/register
+ * @desc    Admin registration
+ * @access  Public
+ */
+
+router.post(
+  "/register",
+  authController.register
+);
+
 /**
  * @route   POST /api/admin/auth/login
  * @desc    Admin login
