@@ -1,5 +1,6 @@
 const jwt = require("jsonwebtoken");
 const Admin = require("../models/Admin");
+const User = require("../models/User");
 const { AppError } = require("../middleware/errorHandler");
 const logger = require("../utils/logger");
 const dotenv = require("dotenv"); // Add this
@@ -7,6 +8,21 @@ const path = require("path"); // Add this
 
 // Ensure environment variables are loaded
 dotenv.config({ path: path.resolve(__dirname, "../.env") });
+
+/**
+ * Admin to get all users
+ * @returns {Promise<Array>} List of all active users
+ */
+const getAllUsers = async () => {
+  try {
+    // Fetch all active users
+    const users = await User.find({ isActive: true }).select("-password -__v");
+    return users;
+  } catch (error) {
+    logger.error(`Error fetching users: ${error.message}`);
+    throw new AppError("Failed to fetch users", 500);
+  }
+}
 
 /**
  * Admin login
@@ -157,6 +173,7 @@ const changePassword = async (adminId, currentPassword, newPassword) => {
 };
 
 module.exports = {
+  getAllUsers,
   login,
   verifyToken,
   createInitialAdmin,
