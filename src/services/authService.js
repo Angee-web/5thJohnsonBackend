@@ -28,7 +28,7 @@ const getAllUsers = async () => {
  * Admin register service
  * @module authService
  */
-const registerAdmin = async (adminData) => {
+const register = async (adminData) => {
   try {
     // Check if admin already exists
     const existingAdmin = await Admin.findOne({ username: adminData.username });
@@ -203,7 +203,7 @@ const changePassword = async (adminId, currentPassword, newPassword) => {
 
 module.exports = {
   getAllUsers,
-  registerAdmin,
+  register,
   login,
   verifyToken,
   createInitialAdmin,
