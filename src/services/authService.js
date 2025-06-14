@@ -25,6 +25,35 @@ const getAllUsers = async () => {
 }
 
 /**
+ * Admin register service
+ * @module authService
+ */
+const registerAdmin = async (adminData) => {
+  try {
+    // Check if admin already exists
+    const existingAdmin = await Admin.findOne({ username: adminData.username });
+    if (existingAdmin) {
+      throw new AppError("Admin with this username already exists", 400);
+    }
+
+    // Create new admin
+    const newAdmin = new Admin(adminData);
+    await newAdmin.save();
+
+    logger.info(`New admin registered: ${newAdmin.username}`);
+    return {
+      id: newAdmin._id,
+      username: newAdmin.username,
+      name: newAdmin.name,
+      email: newAdmin.email,
+    };
+  } catch (error) {
+    logger.error(`Registration error: ${error.message}`);
+    throw error;
+  }
+}
+
+/**
  * Admin login
  * @param {String} username - Admin username
  * @param {String} password - Admin password
@@ -174,6 +203,7 @@ const changePassword = async (adminId, currentPassword, newPassword) => {
 
 module.exports = {
   getAllUsers,
+  registerAdmin,
   login,
   verifyToken,
   createInitialAdmin,
