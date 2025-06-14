@@ -13,8 +13,9 @@ const upload = multer({
       cb(null, "tmp/uploads/");
     },
     filename: function (req, file, cb) {
+      const ext = path.extname(file.originalname);
       const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
-      cb(null, file.fieldname + "-" + uniqueSuffix + ".tmp");
+      cb(null, file.fieldname + "-" + uniqueSuffix + ext);
     },
   }),
   limits: {

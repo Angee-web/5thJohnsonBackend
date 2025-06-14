@@ -10,7 +10,9 @@ const logger = require("../utils/logger");
  */
 const uploadImage = async (file, options = {}) => {
   try {
-    const result = await cloudinary.uploader.upload(file.path, options);
+    const result = await cloudinary.uploader.upload(file.path, {
+      folder: options.folder || 'default-folder',
+    });    
     return result;
   } catch (error) {
       throw new Error(`Cloudinary upload failed: ${error.message}`);
