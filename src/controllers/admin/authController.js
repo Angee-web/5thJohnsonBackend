@@ -25,24 +25,26 @@ const getAllUsers = async (req, res, next) => {
  * 
  */
 const register = async (req, res, next) => {
-  console.log("Register route hit"); // Debugging log
-  console.log("Request body:", req.body); // Debugging log
+  console.log("Register route hit");
+  console.log("Request body:", req.body);
 
-  const { username, password } = req.body;
-  if (!username || !password) {
-    console.log("Validation failed: Missing username or password");
-    return res.status(400).json({ message: "Username and password are required" });
+  const { name, email, username, password } = req.body;
+
+  if (!name || !email || !username || !password) {
+    console.log("Validation failed: Missing required fields");
+    return res.status(400).json({ message: "Name, email, username, and password are required" });
   }
 
   try {
-    const adminData = await authService.register({ username, password });
-    console.log("Admin registered successfully:", adminData); // Debugging log
+    const adminData = await authService.register({ name, email, username, password });
+    console.log("Admin registered successfully:", adminData);
     return res.status(201).json({ message: "Admin registered successfully", data: adminData });
   } catch (error) {
-    console.error("Error in register route:", error); // Debugging log
+    console.error("Error in register route:", error);
     next(error);
   }
 };
+
 
 /**
  * Admin login
