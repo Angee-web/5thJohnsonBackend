@@ -7,15 +7,15 @@ const { createLimiter } = require("../../middleware/rateLimiter");
 const { getPerformanceStats } = require("../../middleware/performanceMonitor");
 
 /**
- * @route   GET /api/admin/auth/all
+ * @route   GET /api/admin/auth/all ✅
  * @desc    Test route to get all users
  * @desc    This route is for testing purposes only and should not be used in production.
  * @access  Public
  */
-router.get("/all", authController.getAllUsers);
+router.get("/all", authController.getAllUsers); 
 
 /** 
- * @route   POST /api/admin/auth/register
+ * @route   POST /api/admin/auth/register ✅
  * @desc    Admin registration
  * @access  Public
  */
@@ -26,7 +26,7 @@ router.post(
 );
 
 /**
- * @route   POST /api/admin/auth/login
+ * @route   POST /api/admin/auth/login ✅
  * @desc    Admin login
  * @access  Public
  */
@@ -42,7 +42,7 @@ router.post(
 );
 
 /**
- * @route   POST /api/admin/auth/change-password
+ * @route   POST /api/admin/auth/change-password ✅
  * @desc    Change admin password
  * @access  Admin
  */

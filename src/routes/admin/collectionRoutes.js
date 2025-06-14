@@ -26,7 +26,7 @@ const upload = multer({
 router.use(adminAuth);
 
 /**
- * @route   GET /api/admin/collections
+ * @route   GET /api/admin/collections ✅
  * @desc    Get all collections (admin version with additional filters)
  * @access  Admin
  */
@@ -45,7 +45,7 @@ router.post(
 
 
 /**
- * @route   GET /api/admin/collections/with-products
+ * @route   GET /api/admin/collections/with-products ✅
  * @desc    Get collections that have products
  * @access  Admin
  */

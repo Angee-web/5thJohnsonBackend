@@ -58,87 +58,26 @@ const getPageSeo = (page) => {
  * Get all products with filtering and pagination
  * @route GET /api/products
  */
-const getProducts = async (req, res) => {
+const getProducts = async (req, res, next) => {
   try {
-    const {
-      page = 1,
-      limit = 10,
-      sort = "-createdAt",
-      collections,
-      minPrice,
-      maxPrice,
+    const { page = 1, limit = 10, sort = "-createdAt", search } = req.query;
+
+    console.log("Client getProducts function called");
+    console.log("Incoming request query:", req.query);
+
+    const products = await productService.getProducts({
+      page: parseInt(page),
+      limit: parseInt(limit),
+      sort,
       search,
-    } = req.query;
-
-    // Build query
-    const query = { isActive: true };
-
-    // Collection filter
-    if (collections) {
-      const collectionIds = collections.split(",");
-      const validCollectionIds = collectionIds.filter((id) =>
-        mongoose.Types.ObjectId.isValid(id)
-      );
-      query.collections = { $in: validCollectionIds };
-    }
-
-    // Price range filter
-    if (minPrice !== undefined && maxPrice !== undefined) {
-      query.price = { $gte: Number(minPrice), $lte: Number(maxPrice) };
-    } else if (minPrice !== undefined) {
-      query.price = { $gte: Number(minPrice) };
-    } else if (maxPrice !== undefined) {
-      query.price = { $lte: Number(maxPrice) };
-    }
-
-    // Search
-    if (search) {
-      query.$or = [
-        { name: { $regex: search, $options: "i" } },
-        { description: { $regex: search, $options: "i" } },
-      ];
-    }
-
-    // Debugging logs
-    console.log("Query object:", query);
-
-    // Execute query
-    const total = await Product.countDocuments(query);
-    const pages = Math.ceil(total / limit);
-
-    const products = await Product.find(query)
-      .populate("collections", "name slug")
-      .sort(sort)
-      .skip((page - 1) * limit)
-      .limit(Number(limit));
-
-    // Return response
-    res.status(200).json({
-      success: true,
-      message: "Success",
-      data: {
-        products,
-        pagination: {
-          page: Number(page),
-          limit: Number(limit),
-          total,
-          pages,
-        },
-      },
-      seo: {
-        title: "5thJohnson - Premium Clothing Collection",
-        description:
-          "Shop premium clothing at 5thJohnson. Discover the latest fashion trends, styles, and collections.",
-        canonicalUrl: `${req.protocol}://${req.get("host")}${req.originalUrl}`,
-      },
     });
+
+    console.log("Fetched products:", products);
+
+    return successResponse(res, "Products fetched successfully", { products });
   } catch (error) {
-    console.error("Error fetching products:", error);
-    res.status(500).json({
-      success: false,
-      message: "Failed to fetch products",
-      error: error.message,
-    });
+    console.error("Error fetching products:", error.message);
+    return errorResponse(res, "Failed to fetch products", error.message);
   }
 };
 

@@ -28,7 +28,7 @@ const upload = multer({
 router.use(adminAuth);
 
 /**
- * @route   GET /api/admin/products
+ * @route   GET /api/admin/products ✅
  * @desc    Get all products (admin version with additional filters)
  * @access  Admin
  */
@@ -46,7 +46,7 @@ router.post(
 );
 
 /**
- * @route   GET /api/admin/products/:id
+ * @route   GET /api/admin/products/:id ✅
  * @desc    Get a product by ID
  * @access  Admin
  */
@@ -57,7 +57,7 @@ router.get(
 );
 
 /**
- * @route   PUT /api/admin/products/:id
+ * @route   PUT /api/admin/products/:id ✅
  * @desc    Update a product
  * @access  Admin
  */
