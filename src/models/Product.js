@@ -100,9 +100,9 @@ const ProductSchema = new mongoose.Schema(
   },
   {
     timestamps: true,
-    toJSON: { virtuals: true },
-    toObject: { virtuals: true },
-    suppressReservedKeysWarning: true,
+    // toJSON: { virtuals: true },
+    // toObject: { virtuals: true },
+    // suppressReservedKeysWarning: true,
   }
 );
 
