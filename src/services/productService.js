@@ -385,34 +385,29 @@ const getNewArrivals = async (limit = 8) => {
  * @param {Number} limit - Maximum number of results
  * @returns {Promise<Array>} Search results
  */
-const searchProducts = async (query, limit = 10) => {
+const searchProducts = async (searchTerm, limit = 10) => {
   try {
-    console.log("DEBUG: Searching products with query:", query);
-    
-    if (!query) {
-      return [];
-    }
+    console.log("Service: Searching products with term:", searchTerm);
 
-    // Using $text search if you have text index on product fields
-    // Make sure your MongoDB has text indexes on name and description fields
-    const products = await Product.find(
-      {
-        $text: { $search: query },
-        isActive: true,
-      },
-      {
-        score: { $meta: "textScore" },
-      }
-    )
-    .sort({ score: { $meta: "textScore" } })
-    .limit(limit);
-    
-    console.log(`DEBUG: Found ${products.length} matching products`);
+    const query = {
+      $or: [
+        { name: { $regex: searchTerm, $options: "i" } }, // Case-insensitive match on name
+        { description: { $regex: searchTerm, $options: "i" } } // Case-insensitive match on description
+      ],
+      isActive: true // Ensure only active products are returned
+    };
+
+    console.log("Service: Query object:", query);
+
+    const products = await Product.find(query)
+      .limit(Number(limit))
+      .lean(); // Use lean() to return plain JavaScript objects
+
+    console.log(`Service: Found ${products.length} matching products`);
     return products;
   } catch (error) {
-    console.error("ERROR in searchProducts:", error);
-    logger.error(`Error searching products: ${error.message}`);
-    throw error;
+    console.error("Service: Error searching products:", error.message);
+    throw new Error("Failed to search products");
   }
 };
 

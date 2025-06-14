@@ -175,32 +175,27 @@ const getOnSaleProducts = async (req, res, next) => {
  * @route GET /api/products/search
  */
 // Update the searchProducts function
+/**
+ * Search products
+ * @route GET /api/products/search
+ */
 const searchProducts = async (req, res, next) => {
   try {
     const { q, limit = 10 } = req.query;
-    
-    console.log("Search controller - Query:", q);
-    
+
+    console.log("Controller: Searching products with query:", q);
+
     if (!q) {
-      return res.status(200).json({
-        success: true,
-        message: "Success",
-        data: { products: [] },
-        seo: getPageSeo("search"), // Use the local helper function
-      });
+      return successResponse(res, { products: [] }, "No search term provided");
     }
-    
+
     const products = await productService.searchProducts(q, parseInt(limit));
-    
-    console.log(`Search controller - Found ${products.length} products`);
-    
-    return res.status(200).json({
-      success: true,
-      message: "Success",
-      data: { products },
-      seo: getPageSeo("search"), // Use the local helper function
-    });
+
+    console.log(`Controller: Returning ${products.length} matching products`);
+
+    return successResponse(res, { products }, "Products fetched successfully");
   } catch (error) {
+    console.error("Controller: Error searching products:", error.message);
     next(error);
   }
 };
