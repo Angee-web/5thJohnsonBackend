@@ -156,12 +156,16 @@ const getNewArrivals = async (req, res, next) => {
 const getOnSaleProducts = async (req, res, next) => {
   try {
     const { limit = 8 } = req.query;
-    const saleProducts = await productService.getOnSaleProducts(
-      parseInt(limit)
-    );
+
+    console.log("Controller: Fetching products on sale with limit:", limit);
+
+    const saleProducts = await productService.getOnSaleProducts(parseInt(limit));
+
+    console.log(`Controller: Returning ${saleProducts.length} products on sale`);
 
     return successResponse(res, { products: saleProducts });
   } catch (error) {
+    console.error("Controller: Error fetching products on sale:", error.message);
     next(error);
   }
 };

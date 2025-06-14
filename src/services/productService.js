@@ -336,22 +336,22 @@ const getFeaturedProducts = async (limit = 8) => {
  */
 const getOnSaleProducts = async (limit = 8) => {
   try {
-    console.log("Getting on-sale products, limit:", limit);
+    console.log("Service: Fetching products on sale with limit:", limit);
 
-    // Use top-level fields as shown in your schema
-    const onSaleProducts = await Product.find({
-      onSale: true,
-      isActive: true,
+    const saleProducts = await Product.find({
+      onSale: true, // Ensure this field exists in the schema
+      isActive: true, // Ensure this field exists in the schema
     })
-      .populate("collections", "name slug")
-      .sort("-createdAt")
-      .limit(Number(limit));
+      .populate("collections", "name slug") // Populate collections with specific fields
+      .sort({ createdAt: -1 }) // Sort by creation date (newest first)
+      .limit(Number(limit)) // Limit the number of results
+      .lean(); // Use lean() to return plain JavaScript objects
 
-    console.log(`Found ${onSaleProducts.length} on-sale products`);
-    return onSaleProducts;
+    console.log(`Service: Found ${saleProducts.length} products on sale`);
+    return saleProducts;
   } catch (error) {
-    logger.error(`Error fetching on-sale products: ${error.message}`);
-    throw new Error("Failed to fetch on-sale products");
+    console.error("Service: Error fetching products on sale:", error.message);
+    throw new Error("Failed to fetch products on sale");
   }
 };
 

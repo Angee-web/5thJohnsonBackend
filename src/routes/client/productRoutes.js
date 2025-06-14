@@ -20,7 +20,7 @@ router.get("/", productController.getProducts);
 router.get("/featured", productController.getFeaturedProducts);
 
 /**
- * @route   GET /api/products/new-arrivals 
+ * @route   GET /api/products/new-arrivals ✅
  * @desc    Get new arrival products
  * @access  Public
  */
