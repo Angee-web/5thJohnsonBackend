@@ -144,7 +144,7 @@ const getNewArrivals = async (req, res, next) => {
 
     return successResponse(res, { products: newArrivals });
   } catch (error) {
-    console.error("Controller: Error fetching new arrivals:", error);
+    console.error("Controller: Error fetching new arrivals:", error.message);
     next(error);
   }
 };

@@ -356,27 +356,25 @@ const getOnSaleProducts = async (limit = 8) => {
 };
 
 /**
- * Get new arrival products
+ * Get new arrivals
  * @param {Number} limit - Maximum number of products to return
- * @returns {Promise<Array>} New arrival products
+ * @returns {Array} New arrivals
  */
 const getNewArrivals = async (limit = 8) => {
   try {
-    console.log("Getting new arrivals, limit:", limit);
-    
-    // Use newArrival field to match your schema intention
-    const newArrivals = await Product.find({
-      newArrival: true,  // Use this field name consistently 
-      isActive: true
-    })
-    .populate("collections", "name slug")
-    .sort("-createdAt")
-    .limit(Number(limit));
-    
-    console.log(`Found ${newArrivals.length} new arrivals`);
+    console.log("Service: Fetching new arrivals with limit:", limit);
+
+    const newArrivals = await Product.find({ isActive: true })
+      .sort({ createdAt: -1 })
+      .limit(limit)
+      .populate("collections", "name slug")
+      .lean();
+
+    console.log("Service: Fetched new arrivals:", newArrivals);
+
     return newArrivals;
   } catch (error) {
-    logger.error(`Error fetching new arrivals: ${error.message}`);
+    console.error("Service: Error fetching new arrivals:", error.message);
     throw new Error("Failed to fetch new arrivals");
   }
 };

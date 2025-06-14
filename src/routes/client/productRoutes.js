@@ -13,14 +13,14 @@ const { productValidators } = require("../../utils/validators");
 router.get("/", productController.getProducts);
 
 /**
- * @route   GET /api/products/featured
+ * @route   GET /api/products/featured ✅
  * @desc    Get featured products
  * @access  Public
  */
 router.get("/featured", productController.getFeaturedProducts);
 
 /**
- * @route   GET /api/products/new-arrivals
+ * @route   GET /api/products/new-arrivals 
  * @desc    Get new arrival products
  * @access  Public
  */
