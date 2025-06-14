@@ -6,7 +6,7 @@ const { validate } = require("../../middleware/validator");
 const { productValidators } = require("../../utils/validators");
 
 /**
- * @route   GET /api/products
+ * @route   GET /api/products ✅
  * @desc    Get all products with filtering and pagination
  * @access  Public
  */

@@ -312,14 +312,14 @@ const getFeaturedProducts = async (limit = 8) => {
   try {
     console.log("Getting featured products, limit:", limit);
 
-    // Use top-level fields as shown in your schema
     const featuredProducts = await Product.find({
       featured: true,
       isActive: true,
     })
       .populate("collections", "name slug")
-      .sort("-createdAt")
-      .limit(Number(limit));
+      .sort({ createdAt: -1 })
+      .limit(Number(limit))
+      .lean();
 
     console.log(`Found ${featuredProducts.length} featured products`);
     return featuredProducts;
