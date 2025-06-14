@@ -5,7 +5,7 @@ const validate = require("../../middleware/validator");
 const { reviewValidators } = require("../../utils/validators");
 
 /**
- * @route   GET /api/reviews/product/:productId
+ * @route   GET /api/reviews/product/:productId ✅
  * @desc    Get reviews for a specific product
  * @access  Public
  */
@@ -16,7 +16,7 @@ router.get(
 );
 
 /**
- * @route   POST /api/reviews
+ * @route   POST /api/reviews ✅
  * @desc    Submit a new review
  * @access  Public
  */

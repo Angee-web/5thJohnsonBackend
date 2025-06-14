@@ -34,7 +34,7 @@ router.get("/new-arrivals", productController.getNewArrivals);
 router.get("/on-sale", productController.getOnSaleProducts);
 
 /**
- * @route   GET /api/products/search
+ * @route   GET /api/products/search ✅
  * @desc    Search products
  * @access  Public
  */
@@ -92,7 +92,7 @@ router.get("/debug-structure", async (req, res) => {
 });
 
 /**
- * @route   GET /api/products/:id
+ * @route   GET /api/products/:id ✅
  * @desc    Get a product by ID
  * @access  Public
  */

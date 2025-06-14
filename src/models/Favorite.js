@@ -13,6 +13,10 @@ const favoriteSchema = new Schema(
       required: true,
       ref: "Product",
     },
+    collection: {
+      type: Schema.Types.ObjectId,
+      ref: "Collection",
+    },
     addedAt: {
       type: Date,
       default: Date.now,

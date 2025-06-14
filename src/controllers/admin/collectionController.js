@@ -215,7 +215,7 @@ const deleteCollection = async (req, res, next) => {
 const uploadCollectionImage = async (req, res, next) => {
   try {
     const { id } = req.params;
-    
+
     // Check if file exists in request
     if (!req.file) {
       return errorResponse(res, "No image file provided", 400);
@@ -243,8 +243,8 @@ const uploadCollectionImage = async (req, res, next) => {
 
     // Update collection with new image
     collection.image = {
-      url: result.url,
-      publicId: result.publicId,
+      url: result.secure_url,
+      publicId: result.public_id,
       width: result.width,
       height: result.height,
     };

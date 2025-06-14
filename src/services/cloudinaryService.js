@@ -10,45 +10,57 @@ const logger = require("../utils/logger");
  */
 const uploadImage = async (file, options = {}) => {
   try {
-    // Validate file exists
-    if (!file || (!file.path && !file.buffer)) {
-      throw new Error("Missing required parameter - file");
-    }
-
-    const {
-      folder = "products",
-      width = 1200,
-      quality = 80,
-      format = "webp",
-      tags = [],
-    } = options;
-
-    // Create upload options
-    const uploadOptions = {
-      folder,
-      resource_type: "image",
-      transformation: [{ width, quality, format }],
-      tags,
-    };
-
-    // Use the file path directly (this is what multer provides)
-    const filePath = file.path;
-
-    // Upload to Cloudinary using your existing utility
-    const result = await cloudinary.uploader.upload(filePath, uploadOptions);
-
-    // Return formatted result
-    return {
-      url: result.secure_url,
-      publicId: result.public_id,
-      width: result.width,
-      height: result.height,
-    };
+    const result = await cloudinary.uploader.upload(file.path, options);
+    return result;
   } catch (error) {
-    logger.error(`Error uploading image to Cloudinary: ${error.message}`);
-    throw error;
-  }
-};
+      throw new Error(`Cloudinary upload failed: ${error.message}`);
+    }
+  };
+// const uploadImage = async (file, options = {}) => {
+//   try {
+//     // Validate file exists
+//     if (!file || (!file.path && !file.buffer)) {
+//       throw new Error("Missing required parameter - file");
+//     }
+
+//     const {
+//       folder = "products",
+//       width = 1200,
+//       quality = 80,
+//       format = "webp",
+//       tags = [],
+//     } = options;
+
+//     // Create upload options
+//     const uploadOptions = {
+//       folder,
+//       resource_type: "image",
+//       transformation: [{ width, quality, format }],
+//       tags,
+//     };
+
+//     console.log("Upload options:", uploadOptions);
+
+//     // Use the file path directly (this is what multer provides)
+//     const filePath = file.path;
+
+//     console.log("Uploading from:", filePath);
+
+//     // Upload to Cloudinary using your existing utility
+//     const result = await cloudinary.uploader.upload(filePath, uploadOptions);
+
+//     // Return formatted result
+//     return {
+//       url: result.secure_url,
+//       publicId: result.public_id,
+//       width: result.width,
+//       height: result.height,
+//     };
+//   } catch (error) {
+//     logger.error(`Error uploading image to Cloudinary: ${error.message}`);
+//     throw error;
+//   }
+// };
 
 /**
  * Delete an image from Cloudinary

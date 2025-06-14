@@ -25,6 +25,8 @@ app.use((req, res, next) => {
   next();
 });
 
+
+
 app.get("/api/health", (req, res) => {
   res.status(200).json({
     status: "ok",
@@ -32,6 +34,8 @@ app.get("/api/health", (req, res) => {
     timestamp: new Date().toISOString(),
   });
 });
+
+
 
 console.log("Environment Variables Loaded:");
 console.log("NODE_ENV:", process.env.NODE_ENV);

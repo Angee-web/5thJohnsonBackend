@@ -16,7 +16,7 @@ router.use(optionalAuth);
 router.get("/", favoriteController.getFavorites);
 
 /**
- * @route   POST /api/favorites
+ * @route   POST /api/favorites ✅
  * @desc    Add a product to favorites
  * @access  Public
  */
@@ -27,7 +27,7 @@ router.post(
 );
 
 /**
- * @route   DELETE /api/favorites/:productId
+ * @route   DELETE /api/favorites/:productId ✅
  * @desc    Remove a product from favorites
  * @access  Public
  */
@@ -38,7 +38,7 @@ router.delete(
 );
 
 /**
- * @route   DELETE /api/favorites
+ * @route   DELETE /api/favorites ✅
  * @desc    Clear all favorites
  * @access  Public
  */

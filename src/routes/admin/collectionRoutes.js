@@ -33,7 +33,7 @@ router.use(adminAuth);
 router.get("/", collectionController.getCollections);
 
 /**
- * @route   POST /api/admin/collections
+ * @route   POST /api/admin/collections ✅
  * @desc    Create a new collection
  * @access  Admin
  */
@@ -57,7 +57,7 @@ router.get(
 
 
 /**
- * @route   GET /api/admin/collections/:id
+ * @route   GET /api/admin/collections/:id ✅
  * @desc    Get a collection by ID
  * @access  Admin
  */
@@ -70,7 +70,7 @@ router.get(
 
 
 /**
- * @route   PUT /api/admin/collections/:id
+ * @route   PUT /api/admin/collections/:id ✅
  * @desc    Update a collection
  * @access  Admin
  */
@@ -81,7 +81,7 @@ router.put(
 );
 
 /**
- * @route   DELETE /api/admin/collections/:id
+ * @route   DELETE /api/admin/collections/:id ✅
  * @desc    Delete a collection
  * @access  Admin
  */
