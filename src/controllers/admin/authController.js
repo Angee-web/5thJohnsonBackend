@@ -35,7 +35,7 @@ const register = async (req, res, next) => {
   }
 
   try {
-    const adminData = await authService.register(username, password);
+    const adminData = await authService.register({ username, password });
     console.log("Admin registered successfully:", adminData); // Debugging log
     return res.status(201).json({ message: "Admin registered successfully", data: adminData });
   } catch (error) {
