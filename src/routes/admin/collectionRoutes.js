@@ -5,6 +5,7 @@ const { adminAuth } = require("../../middleware/adminAuth");
 const validate = require("../../middleware/validator");
 const { collectionValidators } = require("../../utils/validators");
 const multer = require("multer");
+const path = require("path");
 
 // Setup multer storage for file uploads
 const upload = multer({
@@ -105,7 +106,7 @@ router.post(
 );
 
 /**
- * @route   POST /api/admin/collections/:id/products
+ * @route   POST /api/admin/collections/:id/products ✅
  * @desc    Add products to a collection
  * @access  Admin
  */
@@ -116,7 +117,7 @@ router.post(
 );
 
 /**
- * @route   DELETE /api/admin/collections/:id/products
+ * @route   DELETE /api/admin/collections/:id/products ✅
  * @desc    Remove products from a collection
  * @access  Admin
  */

@@ -247,7 +247,52 @@ const productValidators = {
   getProduct: [
     param("id").not().isEmpty().withMessage("Product ID is required").trim(),
   ],
-  createProduct: productValidationRules.create,
+  createProduct: [
+    body("name")
+      .notEmpty()
+      .withMessage("Product name is required")
+      .isLength({ max: 100 })
+      .withMessage("Product name cannot exceed 100 characters"),
+
+    body("description")
+      .notEmpty()
+      .withMessage("Product description is required")
+      .isLength({ max: 2000 })
+      .withMessage("Description cannot exceed 2000 characters"),
+
+    body("price")
+      .notEmpty()
+      .withMessage("Price is required")
+      .isNumeric()
+      .withMessage("Price must be a number")
+      .custom((value) => value >= 0)
+      .withMessage("Price cannot be negative"),
+
+    body("stock")
+      .optional()
+      .isInt({ min: 0 })
+      .withMessage("Stock must be a non-negative integer"),
+
+    body("sku")
+      .optional()
+      .isLength({ max: 50 })
+      .withMessage("SKU cannot exceed 50 characters"),
+
+    body("collections")
+      .optional()
+      .isArray()
+      .withMessage("Collections must be an array"),
+
+    body("variants")
+      .optional()
+      .isArray()
+      .withMessage("Variants must be an array"),
+
+    body("images")
+      .optional()
+      .isArray()
+      .withMessage("Images must be an array"),
+  ],
   updateProduct: [
     param("id").matches(patterns.objectId).withMessage("Invalid product ID"),
     ...productValidationRules.update,
@@ -262,7 +307,6 @@ const productValidators = {
     param("id").matches(patterns.objectId).withMessage("Invalid product ID"),
     param("imageId").not().isEmpty().withMessage("Image ID is required"),
   ],
-  // Add this new validator
   deleteImageByPublicId: [
     param("id").matches(patterns.objectId).withMessage("Invalid product ID"),
     body("publicId").notEmpty().withMessage("Image public ID is required"),

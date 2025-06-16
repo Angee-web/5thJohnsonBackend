@@ -68,7 +68,7 @@ router.put(
 );
 
 /**
- * @route   DELETE /api/admin/products/:id
+ * @route   DELETE /api/admin/products/:id ✅
  * @desc    Delete a product
  * @access  Admin
  */
@@ -79,7 +79,7 @@ router.delete(
 );
 
 /**
- * @route   POST /api/admin/products/:id/images
+ * @route   POST /api/admin/products/:id/images ✅
  * @desc    Upload image for a product
  * @access  Admin
  */
