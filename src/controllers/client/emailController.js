@@ -1,4 +1,5 @@
-const { transporter, noReplyEmail } = require("../config/nodemailer");
+
+const { transporter, noReplyEmail } = require("../../config/nodemailer");
 const logger = require("../utils/logger");
 
 /**
