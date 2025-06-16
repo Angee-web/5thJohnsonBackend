@@ -35,7 +35,7 @@ router.use(adminAuth);
 router.get("/", productController.getProducts);
 
 /**
- * @route   POST /api/admin/products
+ * @route   POST /api/admin/products ✅
  * @desc    Create a new product
  * @access  Admin
  */

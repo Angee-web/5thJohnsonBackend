@@ -10,6 +10,7 @@ const clientReviewRoutes = require("./client/reviewRoutes");
 const clientContactRoutes = require("./client/contactRoutes");
 const clientWhatsappRoutes = require("./client/whatsappRoutes");
 const clientAuthRoutes = require("./client/authRoutes");
+const emailRoutes = require("./client/emailRoutes");
 
 // Admin routes
 const adminProductRoutes = require("./admin/productRoutes");
@@ -29,6 +30,7 @@ router.use("/reviews", clientReviewRoutes);
 router.use("/contact", clientContactRoutes);
 router.use("/whatsapp", clientWhatsappRoutes);
 router.use("/user/auth", clientAuthRoutes);
+router.use("/email", emailRoutes);
 
 // Admin Routes
 router.use("/admin/products", adminProductRoutes);
