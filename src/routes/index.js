@@ -18,6 +18,8 @@ const adminCollectionRoutes = require("./admin/collectionRoutes");
 const adminMessageRoutes = require("./admin/messageRoutes");
 const adminReviewRoutes = require("./admin/reviewRoutes");
 const adminAuthRoutes = require("./admin/authRoutes");
+const backgroundRoutes = require("./admin/imageRoutes");
+
 
 // // Apply SEO middleware to client routes
 // router.use(seoMiddleware);
@@ -38,6 +40,8 @@ router.use("/admin/collections", adminCollectionRoutes);
 router.use("/admin/messages", adminMessageRoutes);
 router.use("/admin/reviews", adminReviewRoutes);
 router.use("/admin/auth", adminAuthRoutes);
+router.use("/admin/background", backgroundRoutes);
+
 
 // Health check endpoint
 router.get("/health", (req, res) => {
