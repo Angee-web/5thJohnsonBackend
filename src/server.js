@@ -4,7 +4,16 @@ const logger = require("./utils/logger");
 const config = require("./config/config");
 const authService = require("./services/authService");
 const routes = require("./routes");
-const express = require("express");
+const cors = require("cors");
+
+// Allow any origin
+app.use(
+  cors({
+    origin: "*", // Allow all origins
+    methods: ["GET", "POST", "PUT", "DELETE"], // Allowed HTTP methods
+    allowedHeaders: ["Content-Type", "Authorization"], // Allowed headers
+  })
+);
 
 require("dotenv").config();
 // const { generateSitemap } = require("./utils/seo/sitemapGenerator");
