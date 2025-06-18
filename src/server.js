@@ -4,6 +4,7 @@ const logger = require("./utils/logger");
 const config = require("./config/config");
 const authService = require("./services/authService");
 const routes = require("./routes");
+const express = require("express");
 const cors = require("cors");
 
 // Allow any origin
